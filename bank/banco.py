@@ -27,7 +27,7 @@ def exibir_menu():
     print('1 - ABRIR CONTA')
     print('2 - VISUALIZAR MEUS DADOS')
     print('3 - TRANSFERÊNCIA')
-    #print('4 - PAGAMENTO')
+    print('4 - PAGAMENTO')
     print('5 - VISUALIZAR EXTRATO')
     print('0 - SAIR')
     print('-------------------------')
@@ -126,16 +126,45 @@ def transferir_valor():
 
     print('\nPRESSIONE ENTER PARA CONTINUAR...')
     input()
-    os.system('cls')     
+    os.system('cls')   
+
+def realizar_pagamento():
+    global conta
+
+    os.system('cls') 
+    if conta == None:          
+        print('CONTA AINDA NÃO FOI ABERTA') 
+    else:
+        print('ENTRE COM AS INFORMACOES DO PAGAMENTO')
+        print('\nNUMERO BOLETO:')  
+        numeroBoleto = input()     
+        print('\nCEDENTE:')  
+        cedente = input()     
+        print('VALOR:')  
+        valorBoleto = float(input())
+
+        if valorBoleto > conta.saldo:
+            print('SALDO INSUFICIENTE')
+        else:            
+            conta.saldo = conta.saldo - valorBoleto
+            inserir_item_extrato('D', valorBoleto, 'PAGAMENTO DE BOLETO, CEDENTE: ' + cedente)
+            print('\nPAGAMENTO REALIZADO COM SUCESSO')
+            print('SALDO ATUAL: ' + str(conta.saldo))  
+
+    print('\nPRESSIONE ENTER PARA CONTINUAR...')
+    input()
+    os.system('cls')   
 
 def executar_item(opcaoSelecionada):
     if opcaoSelecionada == 1:
         abrir_conta()
         os.system('cls')
     elif opcaoSelecionada == 2:
-        visualizar_meus_dados()
+        visualizar_meus_dados()   
     elif opcaoSelecionada == 3:
         transferir_valor()
+    elif opcaoSelecionada == 4:
+        realizar_pagamento()
     elif opcaoSelecionada == 5:
         exibir_extrato()
     else:
