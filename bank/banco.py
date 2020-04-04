@@ -11,9 +11,16 @@ class Conta(object):
 
 import os
 import random
+import platform
 
 conta = None
 extrato = []
+
+def limpar_terminal():
+    if platform.system() == 'Windows':
+        os.system('cls')
+    else:
+        os.system('clear')
 
 def boas_vindas_banco():
     print('$-----------------------$')
@@ -54,7 +61,7 @@ def exibir_extrato():
     global extrato
     global conta
     
-    os.system('cls') 
+    limpar_terminal()
     if conta == None:          
         print('CONTA AINDA NÃO FOI ABERTA') 
     else:
@@ -65,7 +72,7 @@ def exibir_extrato():
            
     print('\nPRESSIONE ENTER PARA CONTINUAR...')
     input()
-    os.system('cls')
+    limpar_terminal()
 
 def abrir_conta():
     global conta
@@ -79,16 +86,16 @@ def abrir_conta():
         saldo = input()        
         conta = Conta(nome, cpf, saldo)
     else:
-        os.system('cls')  
+        limpar_terminal() 
         print('CONTA JÁ CRIADA')          
         print('PRESSIONE ENTER PARA CONTINUAR...')
         input()
-        os.system('cls')  
+        limpar_terminal() 
 
 def visualizar_meus_dados():
     global conta
     
-    os.system('cls') 
+    limpar_terminal() 
     if conta == None:          
         print('CONTA AINDA NÃO FOI ABERTA') 
     else:
@@ -100,12 +107,12 @@ def visualizar_meus_dados():
            
     print('\nPRESSIONE ENTER PARA CONTINUAR...')
     input()
-    os.system('cls')
+    limpar_terminal()
 
 def transferir_valor():
     global conta
 
-    os.system('cls') 
+    limpar_terminal() 
     if conta == None:          
         print('CONTA AINDA NÃO FOI ABERTA') 
     else:
@@ -129,12 +136,12 @@ def transferir_valor():
 
     print('\nPRESSIONE ENTER PARA CONTINUAR...')
     input()
-    os.system('cls')   
+    limpar_terminal()  
 
 def realizar_pagamento():
     global conta
 
-    os.system('cls') 
+    limpar_terminal()
     if conta == None:          
         print('CONTA AINDA NÃO FOI ABERTA') 
     else:
@@ -156,12 +163,12 @@ def realizar_pagamento():
 
     print('\nPRESSIONE ENTER PARA CONTINUAR...')
     input()
-    os.system('cls')   
+    limpar_terminal()  
 
 def executar_item(opcaoSelecionada):
     if opcaoSelecionada == 1:
         abrir_conta()
-        os.system('cls')
+        limpar_terminal()
     elif opcaoSelecionada == 2:
         visualizar_meus_dados()   
     elif opcaoSelecionada == 3:
@@ -175,7 +182,7 @@ def executar_item(opcaoSelecionada):
         print('OPÇÃO INVÁLIDA')          
         print('PRESSIONE ENTER PARA CONTINUAR...')
         input()
-        os.system('cls')  
+        limpar_terminal() 
 
 def main():    
     boas_vindas_banco() 
