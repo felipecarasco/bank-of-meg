@@ -58,7 +58,10 @@ def exibir_extrato():
     if conta == None:          
         print('CONTA AINDA NÃO FOI ABERTA') 
     else:
-        print(*extrato, sep = "\n") 
+        if len(extrato) > 0:
+            print(*extrato, sep = "\n")
+        else:
+            print('NENHUM ITEM PARA SER EXIBIDO')  
            
     print('\nPRESSIONE ENTER PARA CONTINUAR...')
     input()
@@ -140,7 +143,7 @@ def realizar_pagamento():
         numeroBoleto = input()     
         print('\nCEDENTE:')  
         cedente = input()     
-        print('VALOR:')  
+        print('\nVALOR:')  
         valorBoleto = float(input())
 
         if valorBoleto > conta.saldo:
