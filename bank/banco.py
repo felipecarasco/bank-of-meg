@@ -12,11 +12,12 @@ class Conta(object):
 import os
 import random
 import platform
+import re
 
 conta = None
 extrato = []
 
-def limpar_terminal():
+def limpar_tela():
     if platform.system() == 'Windows':
         os.system('cls')
     else:
@@ -61,7 +62,7 @@ def exibir_extrato():
     global extrato
     global conta
     
-    limpar_terminal()
+    limpar_tela()
     if conta == None:          
         print('CONTA AINDA NÃO FOI ABERTA') 
     else:
@@ -72,7 +73,48 @@ def exibir_extrato():
            
     print('\nPRESSIONE ENTER PARA CONTINUAR...')
     input()
-    limpar_terminal()
+    limpar_tela()
+
+def validar_cpf(cpf):    
+    if not isinstance(cpf,str):
+        return False
+   
+    cpf = re.sub("[^0-9]",'',cpf)
+   
+    if len(cpf) != 11:
+        return False
+
+    sum = 0
+    weight = 10
+   
+    for n in range(9):
+        sum = sum + int(cpf[n]) * weight
+        
+        weight = weight - 1
+
+    verifyingDigit = 11 -  sum % 11
+
+    if verifyingDigit > 9 :
+        firstVerifyingDigit = 0
+    else:
+        firstVerifyingDigit = verifyingDigit
+    
+    sum = 0
+    weight = 11
+    for n in range(10):
+        sum = sum + int(cpf[n]) * weight        
+        weight = weight - 1
+
+    verifyingDigit = 11 -  sum % 11
+
+    if verifyingDigit > 9 :
+        secondVerifyingDigit = 0
+    else:
+        secondVerifyingDigit = verifyingDigit
+
+    if cpf[-2:] == "%s%s" % (firstVerifyingDigit,secondVerifyingDigit):
+        return True
+    return False
 
 def abrir_conta():
     global conta
@@ -80,22 +122,32 @@ def abrir_conta():
     if conta == None: 
         print('\nNOME:')  
         nome = input()
+        while nome.replace(' ', '').isalpha() == False:
+            print('\nATENÇÃO!! É PERMITIDO APENAS LETRAS NO NOME, DIGITE NOVAMENTE') 
+            print('\nNOME:')  
+            nome = input()
+
         print('\nCPF:')  
-        cpf = input()
+        cpf = input()        
+        while validar_cpf(cpf) == False:
+            print('\nATENÇÃO!! CPF INVÁLIDO, DIGITE NOVAMENTE') 
+            print('\nCPF:')  
+            cpf = input()
+
         print('\nSALDO:')  
-        saldo = input()        
+        saldo = input().replace(',', '.')        
         conta = Conta(nome, cpf, saldo)
     else:
-        limpar_terminal() 
+        limpar_tela() 
         print('CONTA JÁ CRIADA')          
         print('PRESSIONE ENTER PARA CONTINUAR...')
         input()
-        limpar_terminal() 
+        limpar_tela() 
 
 def visualizar_meus_dados():
     global conta
     
-    limpar_terminal() 
+    limpar_tela() 
     if conta == None:          
         print('CONTA AINDA NÃO FOI ABERTA') 
     else:
@@ -107,12 +159,12 @@ def visualizar_meus_dados():
            
     print('\nPRESSIONE ENTER PARA CONTINUAR...')
     input()
-    limpar_terminal()
+    limpar_tela()
 
 def transferir_valor():
     global conta
 
-    limpar_terminal() 
+    limpar_tela() 
     if conta == None:          
         print('CONTA AINDA NÃO FOI ABERTA') 
     else:
@@ -136,12 +188,12 @@ def transferir_valor():
 
     print('\nPRESSIONE ENTER PARA CONTINUAR...')
     input()
-    limpar_terminal()  
+    limpar_tela()  
 
 def realizar_pagamento():
     global conta
 
-    limpar_terminal()
+    limpar_tela()
     if conta == None:          
         print('CONTA AINDA NÃO FOI ABERTA') 
     else:
@@ -163,12 +215,12 @@ def realizar_pagamento():
 
     print('\nPRESSIONE ENTER PARA CONTINUAR...')
     input()
-    limpar_terminal()  
+    limpar_tela()  
 
 def executar_item(opcaoSelecionada):
     if opcaoSelecionada == 1:
         abrir_conta()
-        limpar_terminal()
+        limpar_tela()
     elif opcaoSelecionada == 2:
         visualizar_meus_dados()   
     elif opcaoSelecionada == 3:
@@ -182,7 +234,7 @@ def executar_item(opcaoSelecionada):
         print('OPÇÃO INVÁLIDA')          
         print('PRESSIONE ENTER PARA CONTINUAR...')
         input()
-        limpar_terminal() 
+        limpar_tela() 
 
 def main():    
     boas_vindas_banco() 
