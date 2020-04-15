@@ -40,6 +40,15 @@ def exibir_menu():
     print('0 - SAIR')
     print('-------------------------')
 
+def exibir_menu_transferencia():
+    print('-------------------------')
+    print('SELECIONE UMA DAS OPÇÕES')
+    print('-------------------------')
+    print('1 - TRANSFERENCIA PARA CONTA BOM')
+    print('2 - TRANSFERENCIA ENTRE BANCOS')
+    print('0 - VOLTAR')
+    print('-------------------------')
+
 def selecionar_item():
     print('OPÇÃO: ')
     opcaoSelecionada = int(input())   
@@ -142,7 +151,8 @@ def abrir_conta():
         print('CONTA JÁ CRIADA')          
         print('PRESSIONE ENTER PARA CONTINUAR...')
         input()
-        limpar_tela() 
+
+    limpar_tela() 
 
 def visualizar_meus_dados():
     global conta
@@ -161,34 +171,77 @@ def visualizar_meus_dados():
     input()
     limpar_tela()
 
+def transferir_valor_bom():
+    print('TRANSFERÊNCIA BOM')
+    print('ENTRE COM AS INFORMACOES DA CONTA DESTINO')
+    print('\nAGENCIA:')  
+    agenciaDestino = input()
+    print('CONTA:')  
+    contaDestino = input()
+    print('DIGITO CONTA:')  
+    digitoContaDestino = input()
+    print('VALOR:')  
+    valorTransferencia = float(input())
+
+    if valorTransferencia > conta.saldo:
+        print('SALDO INSUFICIENTE')
+    else:            
+        conta.saldo = conta.saldo - valorTransferencia
+        inserir_item_extrato('D', valorTransferencia, 'TRANSFERENCIA PARA CONTA BOM > AGENCIA: ' + agenciaDestino + ', CONTA: ' + contaDestino + '-' + digitoContaDestino)
+        print('\nTRANSFERÊNCIA REALIZADA COM SUCESSO')
+        print('SALDO ATUAL: ' + str(conta.saldo))  
+
+    print('\nPRESSIONE ENTER PARA CONTINUAR...')
+    input()
+    limpar_tela()
+
+def transferir_valor_outros_bancos():
+    print('TRANSFERENCIA ENTRE BANCOS')
+    print('ENTRE COM AS INFORMACOES DA CONTA DESTINO')
+    print('\nCÓDIGO BANCO:')  
+    bancoDestino = input()
+    print('AGENCIA:')  
+    agenciaDestino = input()
+    print('CONTA:')  
+    contaDestino = input()
+    print('DIGITO CONTA:')  
+    digitoContaDestino = input()
+    print('CPF:')  
+    cpfDestino = input()    
+    print('VALOR:')  
+    valorTransferencia = float(input())
+
+    if valorTransferencia > conta.saldo:
+        print('SALDO INSUFICIENTE')
+    else:            
+        conta.saldo = conta.saldo - valorTransferencia
+        inserir_item_extrato('D', valorTransferencia, 'TRANSFERENCIA INTERBANCÁRIA > BANCO: ' + bancoDestino + ', AGENCIA: ' + agenciaDestino + ', CONTA: ' + contaDestino + '-' + digitoContaDestino + ', CPF: ' + cpfDestino)
+        print('\nTRANSFERÊNCIA REALIZADA COM SUCESSO')
+        print('SALDO ATUAL: ' + str(conta.saldo))  
+
+    print('\nPRESSIONE ENTER PARA CONTINUAR...')
+    input()
+    limpar_tela()
+
 def transferir_valor():
     global conta
 
     limpar_tela() 
     if conta == None:          
         print('CONTA AINDA NÃO FOI ABERTA') 
-    else:
-        print('ENTRE COM AS INFORMACOES DA CONTA DESTINO')
-        print('\nAGENCIA:')  
-        agenciaDestino = input()
-        print('CONTA:')  
-        contaDestino = input()
-        print('DIGITO CONTA:')  
-        digitoContaDestino = input()
-        print('VALOR:')  
-        valorTransferencia = float(input())
+        print('PRESSIONE ENTER PARA CONTINUAR...')
+        input()
+        limpar_tela()        
+    else:        
+        exibir_menu_transferencia()
+        opcao = selecionar_item()    
 
-        if valorTransferencia > conta.saldo:
-            print('SALDO INSUFICIENTE')
-        else:            
-            conta.saldo = conta.saldo - valorTransferencia
-            inserir_item_extrato('D', valorTransferencia, 'TRANSFERENCIA PARA AGENCIA: ' + agenciaDestino + ', CONTA: ' + contaDestino + '-' + digitoContaDestino)
-            print('\nTRANSFERÊNCIA REALIZADA COM SUCESSO')
-            print('SALDO ATUAL: ' + str(conta.saldo))  
-
-    print('\nPRESSIONE ENTER PARA CONTINUAR...')
-    input()
-    limpar_tela()  
+        while(opcao != 0):        
+            executar_item_transferencia(opcao)        
+            exibir_menu_transferencia()
+            opcao = selecionar_item()
+        else:
+            limpar_tela()  
 
 def realizar_pagamento():
     global conta
@@ -219,8 +272,7 @@ def realizar_pagamento():
 
 def executar_item(opcaoSelecionada):
     if opcaoSelecionada == 1:
-        abrir_conta()
-        limpar_tela()
+        abrir_conta()        
     elif opcaoSelecionada == 2:
         visualizar_meus_dados()   
     elif opcaoSelecionada == 3:
@@ -229,6 +281,19 @@ def executar_item(opcaoSelecionada):
         realizar_pagamento()
     elif opcaoSelecionada == 5:
         exibir_extrato()
+    else:
+        os.system('cls')  
+        print('OPÇÃO INVÁLIDA')          
+        print('PRESSIONE ENTER PARA CONTINUAR...')
+        input()
+        limpar_tela() 
+
+def executar_item_transferencia(opcaoSelecionada):
+    limpar_tela()    
+    if opcaoSelecionada == 1:
+        transferir_valor_bom()
+    elif opcaoSelecionada == 2:
+        transferir_valor_outros_bancos()
     else:
         os.system('cls')  
         print('OPÇÃO INVÁLIDA')          
