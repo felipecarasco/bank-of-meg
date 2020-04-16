@@ -32,11 +32,13 @@ def exibir_menu():
     print('-------------------------')
     print('SELECIONE UMA DAS OPÇÕES')
     print('-------------------------')
-    print('1 - ABRIR CONTA')
-    print('2 - VISUALIZAR MEUS DADOS')
-    print('3 - TRANSFERÊNCIA')
-    print('4 - PAGAMENTO')
-    print('5 - VISUALIZAR EXTRATO')
+    if conta == None:        
+        print('1 - ABRIR CONTA')
+    else:
+        print('2 - VISUALIZAR MEUS DADOS')
+        print('3 - TRANSFERÊNCIA')
+        print('4 - PAGAMENTO')
+        print('5 - VISUALIZAR EXTRATO')
     print('0 - SAIR')
     print('-------------------------')
 
@@ -48,6 +50,13 @@ def exibir_menu_transferencia():
     print('2 - TRANSFERENCIA ENTRE BANCOS')
     print('0 - VOLTAR')
     print('-------------------------')
+
+def opcao_invalida():
+    os.system('cls')  
+    print('OPÇÃO INVÁLIDA')          
+    print('PRESSIONE ENTER PARA CONTINUAR...')
+    input()
+    limpar_tela()
 
 def selecionar_item():
     print('OPÇÃO: ')
@@ -271,22 +280,22 @@ def realizar_pagamento():
     limpar_tela()  
 
 def executar_item(opcaoSelecionada):
-    if opcaoSelecionada == 1:
-        abrir_conta()        
-    elif opcaoSelecionada == 2:
-        visualizar_meus_dados()   
-    elif opcaoSelecionada == 3:
-        transferir_valor()
-    elif opcaoSelecionada == 4:
-        realizar_pagamento()
-    elif opcaoSelecionada == 5:
-        exibir_extrato()
-    else:
-        os.system('cls')  
-        print('OPÇÃO INVÁLIDA')          
-        print('PRESSIONE ENTER PARA CONTINUAR...')
-        input()
-        limpar_tela() 
+    if conta == None:
+        if opcaoSelecionada == 1:
+            abrir_conta()
+        else:
+            opcao_invalida()
+    else:       
+        if opcaoSelecionada == 2:
+            visualizar_meus_dados()   
+        elif opcaoSelecionada == 3:
+            transferir_valor()
+        elif opcaoSelecionada == 4:
+            realizar_pagamento()
+        elif opcaoSelecionada == 5:
+            exibir_extrato()
+        else:
+            opcao_invalida()
 
 def executar_item_transferencia(opcaoSelecionada):
     limpar_tela()    
